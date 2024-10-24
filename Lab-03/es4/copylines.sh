@@ -38,20 +38,33 @@ do
     fi
 done
 
+#for par in $*
+#do
+    #case $par in
+        #*[!a-z]*)
+            #echo "Errore: i nomi dei file devono essere minuscoli";exit 3;;
+        #*);;
+    #esac
+#done
+
 PATH=$PATH:`pwd`
 export PATH
 
 # Richiamo altro file
+#se avessi fatto export di stringa potevo non passarla
 ricerca.sh $directory_assoluta $stringa $*
 
+#posso anche fare while true con exit quando il controllo va a buon fine e non devo rilanciare il programma
 if test `cat /tmp/counter.tmp | wc -l` -eq 0
 then
     rm -f /tmp/counter.tmp
     rm -f /tmp/lines.tmp
     echo "Nessuno file trovato. Aspetto 1 minuto."
     sleep 1m
+    #va bene anche sleep `expr 60\*60`
     copylines.sh $directory_assoluta $stringa $*
 else
+    #anche qui posso rimuovere i file dopo averli stampati
     echo Numero file spostati: `cat /tmp/counter.tmp | wc -l`
     echo Righe file spostati: `cat /tmp/lines.tmp`
 fi
